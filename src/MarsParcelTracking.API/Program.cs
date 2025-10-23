@@ -13,10 +13,8 @@ builder.Services.AddSwaggerGen();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddDbContext<LocationContext>(opt => opt.UseInMemoryDatabase("LocationList"));
 builder.Services.AddDbContext<ParcelContext>(opt => opt.UseInMemoryDatabase("ParcelList"));
 
-builder.Services.AddScoped<LocationService>();
 builder.Services.AddScoped<IParcelService, ParcelService>();
 builder.Services.AddScoped<IParcelDataAccess, ParcelDataAccessEF>();
 

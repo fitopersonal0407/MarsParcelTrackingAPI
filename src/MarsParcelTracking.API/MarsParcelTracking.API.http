@@ -1,16 +1,2 @@
 @MarsParcelTracking.API_HostAddress = https://localhost:7168
 
-POST {{MarsParcelTracking.API_HostAddress}}/api/locations
-Content-Type: application/json
-
-{
-	"planet": "Mars",
-	"city": "neutrino"
-}
-
-###
-
-@id=10
-GET {{MarsParcelTracking.API_HostAddress}}/api/locations/{{id}}
-
-###
