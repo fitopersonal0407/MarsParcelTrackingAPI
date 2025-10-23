@@ -13,7 +13,7 @@
             {
                 if (value != _status)
                 {
-                    History.Add(new ParcelTransition() { Status = value, Timestamp = DateTime.UtcNow });
+                    History.Add(new ParcelTransition() { ParcelId = Id, Status = value, Timestamp = DateTime.UtcNow });
                     _status = value;
                 }
             }

@@ -2,7 +2,7 @@
 
 namespace MarsParcelTracking.Application
 {
-    internal class Util
+    public class Util
     {
         internal const string ISO8601PATTERN = "yyyy-MM-ddTHH:mm:ss.fffZ";
         public static string? UTCDateToString(DateTime? date)

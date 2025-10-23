@@ -15,6 +15,6 @@ namespace MarsParcelTracking.API.Responses
         public string? LaunchDate { get; set; }
         public int? EtaDays { get; set; }
         public string? EstimatedArrivalDate { get; set; }
-        public List<ParcelTransition> History { get; set; }
+        public List<GetParcelTransitionResponse> History { get; set; }
     }
 }

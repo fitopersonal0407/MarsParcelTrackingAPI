@@ -1,6 +1,5 @@
 ﻿using MarsParcelTracking.API.Responses;
 using MarsParcelTracking.Application;
-using MarsParcelTracking.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarsParcelTracking.API.Controllers
@@ -115,7 +114,7 @@ namespace MarsParcelTracking.API.Controllers
                         LaunchDate = i.LaunchDate,
                         EtaDays = i.EtaDays,
                         EstimatedArrivalDate = i.EstimatedArrivalDate,
-                        History = i.History
+                        History = i.History.Select(h => new GetParcelTransitionResponse() { Status = h.Status.ToString(), Timestamp = Util.UTCDateToString(h.Timestamp) }).ToList(),
                     };
 
     }

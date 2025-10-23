@@ -3,6 +3,7 @@
     public class ParcelTransition
     {
         public long Id { get; set; }
+        public long ParcelId { get; set; }
         public EnumParcelStatus Status { get; set; }
         public DateTime Timestamp { get; set; }
     }
