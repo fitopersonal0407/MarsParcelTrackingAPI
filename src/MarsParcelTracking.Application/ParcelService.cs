@@ -1,4 +1,6 @@
 ﻿using MarsParcelTracking.Domain;
+using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MarsParcelTracking.Application
 {
@@ -29,13 +31,14 @@ namespace MarsParcelTracking.Application
                 return ItemToDTO(parcel);
         }
 
-        public async Task<ServiceResponse1<ParcelDTO>> RegisterParcelAsync(ParcelDTO parcelDTO)
+        public async Task<ServiceResponse<ParcelDTO>> RegisterParcelAsync(ParcelDTO parcelDTO)
         {
-            var answer = new ServiceResponse1<ParcelDTO>();
+            var answer = new ServiceResponse<ParcelDTO>();
 
             if (!ValidateBarCode(parcelDTO.Barcode))
             {
                 answer.Response = ServiceResponseCode.BarcodeInvalid;
+                answer.Message = "BarcodeInvalid";
                 return answer;
             }
             else
@@ -43,15 +46,17 @@ namespace MarsParcelTracking.Application
                 {
                     var deliveryService = (DeliveryService)Enum.Parse(typeof(DeliveryService), parcelDTO.DeliveryService);
                     var launchDate = ComputeLaunchDate(deliveryService);
-                    var etaDays = ComputeEtaDays();
+                    var etaDays = ComputeEtaDays(deliveryService);
                     var estimatedArrivalDate = ComputeEstimatedArrivalDate(launchDate, etaDays);
 
                     var parcel = new Parcel
                     {
                         Barcode = parcelDTO.Barcode,
                         Status = ParcelStatus.Created,
-                        Sender = PARCELORIGIN,
-                        Recipient = PARCELRECIPIENT,
+                        Sender = parcelDTO.Sender,
+                        Recipient = parcelDTO.Recipient,
+                        Origin = PARCELORIGIN,
+                        Destination = PARCELRECIPIENT,
                         DeliveryService = deliveryService,
                         Contents = parcelDTO.Contents,
                         LaunchDate = launchDate,
@@ -89,31 +94,65 @@ namespace MarsParcelTracking.Application
             var answer = false;
             if (!string.IsNullOrWhiteSpace(barcode))
             {
-                //todo this is invalid
-                answer = true;
+                var pattern = @"^RMARS\d{19}[A-Z]$";
+                answer = Regex.IsMatch(input: barcode, pattern: pattern);
             }
             return answer;
         }
 
         private DateTime ComputeLaunchDate(DeliveryService deliveryService)
         {
-            var answer = DateTime.UtcNow;
-            //TODO: this is wrong
-            return answer;
+            var now = DateTime.UtcNow;
+            var nextStandardLaunchDate = Util.StringToUTCDate("2025-10-01T00:00:00.000Z").Value;
+            switch (deliveryService)
+            {
+                case DeliveryService.Standard:
+                    return now <= nextStandardLaunchDate ? nextStandardLaunchDate : nextStandardLaunchDate.AddMonths(26);
+                case DeliveryService.Express:
+                    var year = now.Year;
+                    var month = now.Month;
+
+                    var firstWednesday = GetFirstWednesday(year, month);
+                    if (now <= firstWednesday)
+                        return firstWednesday;
+                    else
+                    {
+                        if (month == 12)
+                        {
+                            year++;
+                            month = 1;
+                        }
+                        else
+                            month++;
+
+                        return GetFirstWednesday(year, month);
+                    }
+                default: throw new ArgumentException("deliveryService");
+            }
         }
 
-        private int ComputeEtaDays()
+        public static DateTime GetFirstWednesday(int year, int month)
         {
-            var answer = 1;
-            //TODO: this is wrong
-            return answer;
+            var firstDay = new DateTime(year, month, 1);
+            var daysUntilWednesday = ((int)DayOfWeek.Wednesday - (int)firstDay.DayOfWeek + 7) % 7;
+            return firstDay.AddDays(daysUntilWednesday);
+        }
+
+        private int ComputeEtaDays(DeliveryService deliveryService)
+        {
+            switch (deliveryService)
+            {
+                case DeliveryService.Standard:
+                    return 180;
+                case DeliveryService.Express:
+                    return 90;
+                default: throw new ArgumentException("deliveryService");
+            }
         }
 
         private DateTime ComputeEstimatedArrivalDate(DateTime launchDate, int etaDays)
         {
-            var answer = DateTime.UtcNow;
-            //TODO: this is wrong
-            return answer;
+            return launchDate.AddDays(etaDays); ;
         }
     }
 }

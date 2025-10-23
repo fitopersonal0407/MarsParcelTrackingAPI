@@ -7,6 +7,8 @@
         public ParcelStatus Status { get; set; }
         public string? Sender { get; set; }
         public string? Recipient { get; set; }
+        public string? Origin { get; set; }
+        public string? Destination { get; set; }
         public DeliveryService DeliveryService { get; set; }
         public string? Contents { get; set; }
         public DateTime? LaunchDate { get; set; }

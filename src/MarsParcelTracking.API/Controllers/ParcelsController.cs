@@ -1,6 +1,5 @@
 ﻿using MarsParcelTracking.API.Responses;
 using MarsParcelTracking.Application;
-using MarsParcelTracking.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarsParcelTracking.API.Controllers
