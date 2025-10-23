@@ -82,6 +82,8 @@ namespace MarsParcelTracking.Application
                         Status = nameof(i.Status),
                         Sender = i.Sender,
                         Recipient = i.Recipient,
+                        Origin = i.Origin,
+                        Destination = i.Destination,
                         DeliveryService = nameof(i.DeliveryService),
                         Contents = i.Contents,
                         LaunchDate = Util.UTCDateToString(i.LaunchDate),

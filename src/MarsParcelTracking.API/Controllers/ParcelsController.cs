@@ -55,6 +55,8 @@ namespace MarsParcelTracking.API.Controllers
                         Status = i.Status,
                         Sender = i.Sender,
                         Recipient = i.Recipient,
+                        Origin = i.Origin,
+                        Destination = i.Destination,
                         DeliveryService = i.DeliveryService,
                         Contents = i.Contents,
                         LaunchDate = i.LaunchDate,
