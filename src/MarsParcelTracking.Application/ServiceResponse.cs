@@ -8,5 +8,5 @@
         public T? Data { get; set; }
     }
 
-    public enum ServiceResponseCode { OK, BarcodeInvalid, UnexpectedError }
+    public enum ServiceResponseCode { OK, BarcodeInvalid, UnexpectedError, BarcodeNotExist, StatusInvalid }
 }

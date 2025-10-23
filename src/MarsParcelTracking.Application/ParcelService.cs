@@ -88,25 +88,23 @@ namespace MarsParcelTracking.Application
             else
                 try
                 {
-                    var deliveryService = (DeliveryService)Enum.Parse(typeof(DeliveryService), parcelDTO.DeliveryService);
-                    var launchDate = ComputeLaunchDate(deliveryService);
-                    var etaDays = ComputeEtaDays(deliveryService);
-                    var estimatedArrivalDate = ComputeEstimatedArrivalDate(launchDate, etaDays);
-
-                    var parcel = new Parcel
+                    var parcel = await _dataAccess.FindAsync(parcelDTO.Barcode);
+                    if (parcel == null)
                     {
-                        Barcode = parcelDTO.Barcode,
-                        Status = ParcelStatus.Created,
-                        Sender = parcelDTO.Sender,
-                        Recipient = parcelDTO.Recipient,
-                        Origin = PARCELORIGIN,
-                        Destination = PARCELRECIPIENT,
-                        DeliveryService = deliveryService,
-                        Contents = parcelDTO.Contents,
-                        LaunchDate = launchDate,
-                        EtaDays = etaDays,
-                        EstimatedArrivalDate = estimatedArrivalDate,
-                    };
+                        answer.Response = ServiceResponseCode.BarcodeNotExist;
+                        answer.Message = "BarcodeNotExist";
+                        return answer;
+                    }
+                    if (!new List<string>() { "Created", "OnRocketToMars", "LandedOnMars", "OutForMartianDelivery", "Delivered", "Lost" }.Contains(parcelDTO.Status))
+                    {
+                        answer.Response = ServiceResponseCode.StatusInvalid;
+                        answer.Message = "StatusInvalid";
+                        return answer;
+                    }
+                    switch (parcelDTO.Status)
+                    {
+                    }
+                    //todo me quede aqui
 
                     answer.Data = ItemToDTO(await _dataAccess.Add(parcel));
                     return answer;

@@ -59,29 +59,27 @@ namespace MarsParcelTracking.API.Controllers
                 }
         }
 
-        // PATCH: api/Parcels
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPatch]
-        //public async Task<ActionResult<GetParcelResponse>> PatchParcel(PatchParcelRequest patchParcelRequest)
-        //{
-        //    var parcelDTO = new ParcelDTO
-        //    {
-        //        Barcode = registerParcelRequest.Barcode,
-        //        Status = patchParcelRequest.Status,
-        //    };
+        //PATCH: api/Parcels
+        //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPatch("{barcode}")]
+        public async Task<ActionResult<GetParcelResponse>> PatchParcel(PatchParcelRequest patchParcelRequest, string barcode)
+        {
+            var parcelDTO = new ParcelDTO
+            {
+                Barcode = barcode,
+                Status = patchParcelRequest.Status,
+            };
 
-        //    Task<ServiceResponse<ParcelDTO>> ChangeParcelStatusAsync(ParcelDTO parcelDTO);
-
-        //    var result = await _service.RegisterParcelAsync(parcelDTO);
-        //    if (result.Success)
-        //        return Ok(DTOToResponse(result.Data));
-        //    else
-        //        switch (result.Response)
-        //        {
-        //            case ServiceResponseCode.BarcodeInvalid: return BadRequest(result.Message);
-        //            default: return StatusCode(500, result.Message);
-        //        }
-        //}
+            var result = await _service.ChangeParcelStatusAsync(parcelDTO);
+            if (result.Success)
+                return Ok(DTOToResponse(result.Data));
+            else
+                switch (result.Response)
+                {
+                    case ServiceResponseCode.BarcodeInvalid: return BadRequest(result.Message);
+                    default: return StatusCode(500, result.Message);
+                }
+        }
 
         private static GetParcelResponse DTOToResponse(ParcelDTO i) =>
                     new GetParcelResponse
