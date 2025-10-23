@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36616.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsParcelTracking.API", "src\MarsParcelTracking.API\MarsParcelTracking.API.csproj", "{443B1E37-503C-5A55-793A-55B8B277B8A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsParcelTracking.Application", "src\MarsParcelTracking.Application\MarsParcelTracking.Application.csproj", "{EFC54172-272B-8C21-2BFD-59EA90B54974}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsParcelTracking.Domain", "src\MarsParcelTracking.Domain\MarsParcelTracking.Domain.csproj", "{5E28B4B0-E588-7FD9-DE82-ED69F6B4C354}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{443B1E37-503C-5A55-793A-55B8B277B8A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{443B1E37-503C-5A55-793A-55B8B277B8A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{443B1E37-503C-5A55-793A-55B8B277B8A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{443B1E37-503C-5A55-793A-55B8B277B8A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFC54172-272B-8C21-2BFD-59EA90B54974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFC54172-272B-8C21-2BFD-59EA90B54974}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFC54172-272B-8C21-2BFD-59EA90B54974}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFC54172-272B-8C21-2BFD-59EA90B54974}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E28B4B0-E588-7FD9-DE82-ED69F6B4C354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E28B4B0-E588-7FD9-DE82-ED69F6B4C354}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E28B4B0-E588-7FD9-DE82-ED69F6B4C354}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E28B4B0-E588-7FD9-DE82-ED69F6B4C354}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CF905423-A132-4690-9E39-ACCE6C5512B1}
+	EndGlobalSection
+EndGlobal
