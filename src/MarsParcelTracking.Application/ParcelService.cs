@@ -51,39 +51,47 @@ namespace MarsParcelTracking.Application
                 answer.Message = "BarcodeInvalid";
                 return answer;
             }
-            else
-                try
-                {
-                    var deliveryService = (EnumDeliveryService)Enum.Parse(typeof(EnumDeliveryService), parcelDTO.DeliveryService);
-                    var launchDate = ComputeLaunchDate(deliveryService);
-                    var etaDays = ComputeEtaDays(deliveryService);
-                    var estimatedArrivalDate = ComputeEstimatedArrivalDate(launchDate, etaDays);
 
-                    var parcel = new Parcel
-                    {
-                        Barcode = parcelDTO.Barcode,
-                        Status = EnumParcelStatus.Created,
-                        Sender = parcelDTO.Sender,
-                        Recipient = parcelDTO.Recipient,
-                        Origin = PARCELORIGIN,
-                        Destination = PARCELRECIPIENT,
-                        DeliveryService = deliveryService,
-                        Contents = parcelDTO.Contents,
-                        LaunchDate = launchDate,
-                        EtaDays = etaDays,
-                        EstimatedArrivalDate = estimatedArrivalDate,
-                    };
+            var existing = await _dataAccess.FindAsync(parcelDTO.Barcode);
+            if (existing != null)
+            {
+                answer.Response = ServiceResponseCode.DuplicatedBarcode;
+                answer.Message = "DuplicatedBarcode";
+                return answer;
+            }
 
-                    var result = await _dataAccess.Add(parcel);
-                    answer.Data = ItemToDTO(result);
-                    return answer;
-                }
-                catch (Exception ex)
+            try
+            {
+                var deliveryService = (EnumDeliveryService)Enum.Parse(typeof(EnumDeliveryService), parcelDTO.DeliveryService);
+                var launchDate = ComputeLaunchDate(deliveryService);
+                var etaDays = ComputeEtaDays(deliveryService);
+                var estimatedArrivalDate = ComputeEstimatedArrivalDate(launchDate, etaDays);
+
+                var parcel = new Parcel
                 {
-                    answer.Response = ServiceResponseCode.UnexpectedError;
-                    answer.Message = ex.Message;
-                    return answer;
-                }
+                    Barcode = parcelDTO.Barcode,
+                    Status = EnumParcelStatus.Created,
+                    Sender = parcelDTO.Sender,
+                    Recipient = parcelDTO.Recipient,
+                    Origin = PARCELORIGIN,
+                    Destination = PARCELRECIPIENT,
+                    DeliveryService = deliveryService,
+                    Contents = parcelDTO.Contents,
+                    LaunchDate = launchDate,
+                    EtaDays = etaDays,
+                    EstimatedArrivalDate = estimatedArrivalDate,
+                };
+
+                var result = await _dataAccess.Add(parcel);
+                answer.Data = ItemToDTO(result);
+                return answer;
+            }
+            catch (Exception ex)
+            {
+                answer.Response = ServiceResponseCode.UnexpectedError;
+                answer.Message = ex.Message;
+                return answer;
+            }
         }
 
         public async Task<ServiceResponse<ParcelDTO>> ChangeParcelStatusAsync(ParcelDTO parcelDTO)
