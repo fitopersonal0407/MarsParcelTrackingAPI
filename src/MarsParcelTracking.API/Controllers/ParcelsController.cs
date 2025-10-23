@@ -23,6 +23,17 @@ namespace MarsParcelTracking.API.Controllers
             return result.Select(i => DTOToResponse(i)).ToList();
         }
 
+        // GET: api/Parcels/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetParcelResponse>> GetParcel(long id)
+        {
+            var result = await _service.GetParcelAsync(id);
+            if (result == null)
+                return NoContent();
+            else
+                return DTOToResponse(result);
+        }
+
         // POST: api/Parcels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -47,6 +58,30 @@ namespace MarsParcelTracking.API.Controllers
                     default: return StatusCode(500, result.Message);
                 }
         }
+
+        // PATCH: api/Parcels
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPatch]
+        //public async Task<ActionResult<GetParcelResponse>> PatchParcel(PatchParcelRequest patchParcelRequest)
+        //{
+        //    var parcelDTO = new ParcelDTO
+        //    {
+        //        Barcode = registerParcelRequest.Barcode,
+        //        Status = patchParcelRequest.Status,
+        //    };
+
+        //    Task<ServiceResponse<ParcelDTO>> ChangeParcelStatusAsync(ParcelDTO parcelDTO);
+
+        //    var result = await _service.RegisterParcelAsync(parcelDTO);
+        //    if (result.Success)
+        //        return Ok(DTOToResponse(result.Data));
+        //    else
+        //        switch (result.Response)
+        //        {
+        //            case ServiceResponseCode.BarcodeInvalid: return BadRequest(result.Message);
+        //            default: return StatusCode(500, result.Message);
+        //        }
+        //}
 
         private static GetParcelResponse DTOToResponse(ParcelDTO i) =>
                     new GetParcelResponse

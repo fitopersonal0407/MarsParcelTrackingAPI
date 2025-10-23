@@ -75,6 +75,51 @@ namespace MarsParcelTracking.Application
                 }
         }
 
+        public async Task<ServiceResponse<ParcelDTO>> ChangeParcelStatusAsync(ParcelDTO parcelDTO)
+        {
+            var answer = new ServiceResponse<ParcelDTO>();
+
+            if (!ValidateBarCode(parcelDTO.Barcode))
+            {
+                answer.Response = ServiceResponseCode.BarcodeInvalid;
+                answer.Message = "BarcodeInvalid";
+                return answer;
+            }
+            else
+                try
+                {
+                    var deliveryService = (DeliveryService)Enum.Parse(typeof(DeliveryService), parcelDTO.DeliveryService);
+                    var launchDate = ComputeLaunchDate(deliveryService);
+                    var etaDays = ComputeEtaDays(deliveryService);
+                    var estimatedArrivalDate = ComputeEstimatedArrivalDate(launchDate, etaDays);
+
+                    var parcel = new Parcel
+                    {
+                        Barcode = parcelDTO.Barcode,
+                        Status = ParcelStatus.Created,
+                        Sender = parcelDTO.Sender,
+                        Recipient = parcelDTO.Recipient,
+                        Origin = PARCELORIGIN,
+                        Destination = PARCELRECIPIENT,
+                        DeliveryService = deliveryService,
+                        Contents = parcelDTO.Contents,
+                        LaunchDate = launchDate,
+                        EtaDays = etaDays,
+                        EstimatedArrivalDate = estimatedArrivalDate,
+                    };
+
+                    answer.Data = ItemToDTO(await _dataAccess.Add(parcel));
+                    return answer;
+                }
+                catch (Exception ex)
+                {
+                    answer.Response = ServiceResponseCode.UnexpectedError;
+                    answer.Message = ex.Message;
+                    return answer;
+                }
+        }
+
+
         private static ParcelDTO ItemToDTO(Parcel i) =>
                     new ParcelDTO
                     {
