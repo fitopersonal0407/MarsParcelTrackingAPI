@@ -1,0 +1,1 @@
+public enum EnumDeliveryService { Standard, Express }

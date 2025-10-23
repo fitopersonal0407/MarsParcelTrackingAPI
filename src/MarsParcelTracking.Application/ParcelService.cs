@@ -44,7 +44,7 @@ namespace MarsParcelTracking.Application
             else
                 try
                 {
-                    var deliveryService = (DeliveryService)Enum.Parse(typeof(DeliveryService), parcelDTO.DeliveryService);
+                    var deliveryService = (EnumDeliveryService)Enum.Parse(typeof(EnumDeliveryService), parcelDTO.DeliveryService);
                     var launchDate = ComputeLaunchDate(deliveryService);
                     var etaDays = ComputeEtaDays(deliveryService);
                     var estimatedArrivalDate = ComputeEstimatedArrivalDate(launchDate, etaDays);
@@ -52,7 +52,7 @@ namespace MarsParcelTracking.Application
                     var parcel = new Parcel
                     {
                         Barcode = parcelDTO.Barcode,
-                        Status = ParcelStatus.Created,
+                        Status = EnumParcelStatus.Created,
                         Sender = parcelDTO.Sender,
                         Recipient = parcelDTO.Recipient,
                         Origin = PARCELORIGIN,
@@ -145,15 +145,15 @@ namespace MarsParcelTracking.Application
             return answer;
         }
 
-        private DateTime ComputeLaunchDate(DeliveryService deliveryService)
+        private DateTime ComputeLaunchDate(EnumDeliveryService deliveryService)
         {
             var now = DateTime.UtcNow;
             var nextStandardLaunchDate = Util.StringToUTCDate("2025-10-01T00:00:00.000Z").Value;
             switch (deliveryService)
             {
-                case DeliveryService.Standard:
+                case EnumDeliveryService.Standard:
                     return now <= nextStandardLaunchDate ? nextStandardLaunchDate : nextStandardLaunchDate.AddMonths(26);
-                case DeliveryService.Express:
+                case EnumDeliveryService.Express:
                     var year = now.Year;
                     var month = now.Month;
 
@@ -183,13 +183,13 @@ namespace MarsParcelTracking.Application
             return firstDay.AddDays(daysUntilWednesday);
         }
 
-        private int ComputeEtaDays(DeliveryService deliveryService)
+        private int ComputeEtaDays(EnumDeliveryService deliveryService)
         {
             switch (deliveryService)
             {
-                case DeliveryService.Standard:
+                case EnumDeliveryService.Standard:
                     return 180;
-                case DeliveryService.Express:
+                case EnumDeliveryService.Express:
                     return 90;
                 default: throw new ArgumentException("deliveryService");
             }

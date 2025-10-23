@@ -4,12 +4,12 @@
     {
         public long Id { get; set; }
         public string? Barcode { get; set; }
-        public ParcelStatus Status { get; set; }
+        public EnumParcelStatus Status { get; set; }
         public string? Sender { get; set; }
         public string? Recipient { get; set; }
         public string? Origin { get; set; }
         public string? Destination { get; set; }
-        public DeliveryService DeliveryService { get; set; }
+        public EnumDeliveryService DeliveryService { get; set; }
         public string? Contents { get; set; }
         public DateTime? LaunchDate { get; set; }
         public int? EtaDays { get; set; }
