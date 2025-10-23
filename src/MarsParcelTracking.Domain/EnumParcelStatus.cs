@@ -1,1 +1,1 @@
-public enum EnumParcelStatus { Created, OnRocketToMars, LandedOnMars, OutForMartianDelivery, Delivered, Lost }
+public enum EnumParcelStatus { Initial, Created, OnRocketToMars, LandedOnMars, OutForMartianDelivery, Delivered, Lost }
