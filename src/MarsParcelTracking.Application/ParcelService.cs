@@ -95,18 +95,27 @@ namespace MarsParcelTracking.Application
                         answer.Message = "BarcodeNotExist";
                         return answer;
                     }
-                    if (!new List<string>() { "Created", "OnRocketToMars", "LandedOnMars", "OutForMartianDelivery", "Delivered", "Lost" }.Contains(parcelDTO.Status))
+
+                    var newStatus = EnumParcelStatus.Created;
+                    try
+                    {
+                        newStatus = (EnumParcelStatus)Enum.Parse(typeof(EnumParcelStatus), parcelDTO.Status);
+                        if (!ValidateStatusTransitions(currentStatus: parcel.Status, newStatus))
+                        {
+                            answer.Response = ServiceResponseCode.StatusTransitionInvalid;
+                            answer.Message = "StatusTransitionInvalid";
+                            return answer;
+                        }
+                    }
+                    catch
                     {
                         answer.Response = ServiceResponseCode.StatusInvalid;
                         answer.Message = "StatusInvalid";
                         return answer;
                     }
-                    switch (parcelDTO.Status)
-                    {
-                    }
-                    //todo me quede aqui
 
-                    answer.Data = ItemToDTO(await _dataAccess.Add(parcel));
+                    parcel.Status = newStatus;
+                    answer.Data = ItemToDTO(await _dataAccess.Update(parcel));
                     return answer;
                 }
                 catch (Exception ex)
@@ -117,17 +126,16 @@ namespace MarsParcelTracking.Application
                 }
         }
 
-
         private static ParcelDTO ItemToDTO(Parcel i) =>
                     new ParcelDTO
                     {
                         Barcode = i.Barcode,
-                        Status = nameof(i.Status),
+                        Status = i.Status.ToString(),
                         Sender = i.Sender,
                         Recipient = i.Recipient,
                         Origin = i.Origin,
                         Destination = i.Destination,
-                        DeliveryService = nameof(i.DeliveryService),
+                        DeliveryService = i.DeliveryService.ToString(),
                         Contents = i.Contents,
                         LaunchDate = Util.UTCDateToString(i.LaunchDate),
                         EtaDays = i.EtaDays,
@@ -142,6 +150,37 @@ namespace MarsParcelTracking.Application
                 var pattern = @"^RMARS\d{19}[A-Z]$";
                 answer = Regex.IsMatch(input: barcode, pattern: pattern);
             }
+            return answer;
+        }
+
+        private bool ValidateStatusTransitions(EnumParcelStatus currentStatus, EnumParcelStatus newStatus)
+        {
+            var answer = false;
+            var allowedTransitions = new List<EnumParcelStatus>();
+            switch (currentStatus)
+            {
+                case EnumParcelStatus.Created:
+                    allowedTransitions.Add(EnumParcelStatus.OnRocketToMars);
+                    break;
+                case EnumParcelStatus.OnRocketToMars:
+                    allowedTransitions.Add(EnumParcelStatus.LandedOnMars);
+                    allowedTransitions.Add(EnumParcelStatus.Lost);
+                    break;
+                case EnumParcelStatus.LandedOnMars:
+                    allowedTransitions.Add(EnumParcelStatus.OutForMartianDelivery);
+                    break;
+                case EnumParcelStatus.OutForMartianDelivery:
+                    allowedTransitions.Add(EnumParcelStatus.Delivered);
+                    allowedTransitions.Add(EnumParcelStatus.Lost);
+                    break;
+                case EnumParcelStatus.Delivered:
+                    allowedTransitions.Add(EnumParcelStatus.Delivered);
+                    break;
+                case EnumParcelStatus.Lost:
+                    allowedTransitions.Add(EnumParcelStatus.Lost);
+                    break;
+            }
+            answer = allowedTransitions.Contains(newStatus);
             return answer;
         }
 

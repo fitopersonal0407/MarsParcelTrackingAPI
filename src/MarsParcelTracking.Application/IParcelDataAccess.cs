@@ -8,5 +8,6 @@ namespace MarsParcelTracking.Application
         Task<Parcel> FindAsync(long id);
         Task<Parcel> FindAsync(string barcode);
         Task<Parcel> Add(Parcel parcel);
+        Task<Parcel> Update(Parcel parcel);
     }
 }

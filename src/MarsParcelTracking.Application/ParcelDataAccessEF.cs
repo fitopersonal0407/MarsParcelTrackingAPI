@@ -33,5 +33,12 @@ namespace MarsParcelTracking.Application
             await _context.SaveChangesAsync();
             return await FindAsync(parcel.Id);
         }
+
+        public async Task<Parcel> Update(Parcel parcel)
+        {
+            _context.Parcels.Update(parcel);
+            await _context.SaveChangesAsync();
+            return await FindAsync(parcel.Id);
+        }
     }
 }

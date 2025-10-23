@@ -76,7 +76,10 @@ namespace MarsParcelTracking.API.Controllers
             else
                 switch (result.Response)
                 {
-                    case ServiceResponseCode.BarcodeInvalid: return BadRequest(result.Message);
+                    case ServiceResponseCode.BarcodeInvalid:
+                    case ServiceResponseCode.BarcodeNotExist:
+                    case ServiceResponseCode.StatusInvalid:
+                    case ServiceResponseCode.StatusTransitionInvalid: return BadRequest(result.Message);
                     default: return StatusCode(500, result.Message);
                 }
         }
