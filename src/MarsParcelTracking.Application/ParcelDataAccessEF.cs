@@ -24,14 +24,21 @@ namespace MarsParcelTracking.Application
 
         public async Task<Parcel> FindAsync(string barcode)
         {
-            return await _context.Parcels.FirstOrDefaultAsync(p => p.Barcode == barcode);
+            var answer = await _context.Parcels.FirstOrDefaultAsync(p => p.Barcode == barcode);
+
+            //todo borrar
+            long id = 1;
+            var answer1 = await _context.Parcels.FindAsync(id);
+
+            return answer;
         }
 
         public async Task<Parcel> Add(Parcel parcel)
         {
             _context.Parcels.Add(parcel);
             await _context.SaveChangesAsync();
-            return await FindAsync(parcel.Id);
+            var answer = await FindAsync(parcel.Id);
+            return answer;
         }
 
         public async Task<Parcel> Update(Parcel parcel)

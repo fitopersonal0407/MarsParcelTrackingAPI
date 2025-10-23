@@ -15,7 +15,7 @@ namespace MarsParcelTracking.Application
             _dataAccess = dataAccess;
         }
 
-        public async Task<List<ParcelDTO>> GetGetParcelsAsync()
+        public async Task<List<ParcelDTO>> GetParcelsAsync()
         {
             var parcels = await _dataAccess.GetAllParcelsAsync();
             return parcels.Select(p => ItemToDTO(p)).ToList();
@@ -24,6 +24,16 @@ namespace MarsParcelTracking.Application
         public async Task<ParcelDTO> GetParcelAsync(long id)
         {
             var parcel = await _dataAccess.FindAsync(id);
+
+            if (parcel == null)
+                return null;
+            else
+                return ItemToDTO(parcel);
+        }
+
+        public async Task<ParcelDTO> GetParcelAsync(string barcode)
+        {
+            var parcel = await _dataAccess.FindAsync(barcode);
 
             if (parcel == null)
                 return null;
@@ -64,7 +74,8 @@ namespace MarsParcelTracking.Application
                         EstimatedArrivalDate = estimatedArrivalDate,
                     };
 
-                    answer.Data = ItemToDTO(await _dataAccess.Add(parcel));
+                    var result = await _dataAccess.Add(parcel);
+                    answer.Data = ItemToDTO(result);
                     return answer;
                 }
                 catch (Exception ex)
@@ -139,7 +150,8 @@ namespace MarsParcelTracking.Application
                         Contents = i.Contents,
                         LaunchDate = Util.UTCDateToString(i.LaunchDate),
                         EtaDays = i.EtaDays,
-                        EstimatedArrivalDate = Util.UTCDateToString(i.EstimatedArrivalDate)
+                        EstimatedArrivalDate = Util.UTCDateToString(i.EstimatedArrivalDate),
+                        History = i.History,
                     };
 
         private bool ValidateBarCode(string? barcode)
@@ -215,7 +227,7 @@ namespace MarsParcelTracking.Application
             }
         }
 
-        public static DateTime GetFirstWednesday(int year, int month)
+        private static DateTime GetFirstWednesday(int year, int month)
         {
             var firstDay = new DateTime(year, month, 1);
             var daysUntilWednesday = ((int)DayOfWeek.Wednesday - (int)firstDay.DayOfWeek + 7) % 7;

@@ -1,8 +1,8 @@
 ﻿using MarsParcelTracking.Domain;
 
-namespace MarsParcelTracking.Application
+namespace MarsParcelTracking.API.Responses
 {
-    public class ParcelDTO
+    public class GetParcelWithHistoryResponse
     {
         public string? Barcode { get; set; }
         public string Status { get; set; }
@@ -16,11 +16,5 @@ namespace MarsParcelTracking.Application
         public int? EtaDays { get; set; }
         public string? EstimatedArrivalDate { get; set; }
         public List<ParcelTransition> History { get; set; }
-
-        public ParcelDTO()
-        {
-            Status = DeliveryService = string.Empty;
-            History = new List<ParcelTransition>();
-        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MarsParcelTracking.API.Responses;
 using MarsParcelTracking.Application;
+using MarsParcelTracking.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarsParcelTracking.API.Controllers
@@ -19,19 +20,19 @@ namespace MarsParcelTracking.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetParcelResponse>>> GetParcels()
         {
-            var result = await _service.GetGetParcelsAsync();
+            var result = await _service.GetParcelsAsync();
             return result.Select(i => DTOToResponse(i)).ToList();
         }
 
         // GET: api/Parcels/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<GetParcelResponse>> GetParcel(long id)
+        [HttpGet("{barcode}")]
+        public async Task<ActionResult<GetParcelWithHistoryResponse>> GetParcel(string barcode)
         {
-            var result = await _service.GetParcelAsync(id);
+            var result = await _service.GetParcelAsync(barcode);
             if (result == null)
                 return NoContent();
             else
-                return DTOToResponse(result);
+                return DTOToWithHistoryResponse(result);
         }
 
         // POST: api/Parcels
@@ -99,5 +100,23 @@ namespace MarsParcelTracking.API.Controllers
                         EtaDays = i.EtaDays,
                         EstimatedArrivalDate = i.EstimatedArrivalDate,
                     };
+
+        private static GetParcelWithHistoryResponse DTOToWithHistoryResponse(ParcelDTO i) =>
+                    new GetParcelWithHistoryResponse
+                    {
+                        Barcode = i.Barcode,
+                        Status = i.Status,
+                        Sender = i.Sender,
+                        Recipient = i.Recipient,
+                        Origin = i.Origin,
+                        Destination = i.Destination,
+                        DeliveryService = i.DeliveryService,
+                        Contents = i.Contents,
+                        LaunchDate = i.LaunchDate,
+                        EtaDays = i.EtaDays,
+                        EstimatedArrivalDate = i.EstimatedArrivalDate,
+                        History = i.History
+                    };
+
     }
 }
