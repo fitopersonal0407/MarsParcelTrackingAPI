@@ -4,10 +4,10 @@ using System.Net.Http.Json;
 
 namespace MarsParcelTracking.IntegrationTest
 {
-    public class ParcelIntegrationTests : IClassFixture<CustomWebApplicationFactory<Program>>
+    public class ParcelIntegrationTests : IClassFixture<CustomWebApplicationFactory>
     {
         private readonly HttpClient _client;
-        public ParcelIntegrationTests(CustomWebApplicationFactory<Program> factory)
+        public ParcelIntegrationTests(CustomWebApplicationFactory factory)
         {
             _client = factory.CreateClient();
         }

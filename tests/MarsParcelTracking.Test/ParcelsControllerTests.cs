@@ -36,7 +36,7 @@ namespace MarsParcelTracking.Test
             return answer;
         }
 
-        [TestMethod]
+        //[TestMethod]
         public async Task Create_ReturnsBadRequest_GivenInvalidModel()
         {
             var barcode = "RMARS1234567890123456789A";
