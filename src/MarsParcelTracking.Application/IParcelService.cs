@@ -2,6 +2,10 @@
 {
     public interface IParcelService
     {
+        const string PARCELORIGIN = "Starport Thames Estuary";
+
+        const string PARCELDESTINATION = "New London";
+
         Task<List<ParcelDTO>> GetParcelsAsync();
         Task<ParcelDTO> GetParcelAsync(long id);
         Task<ParcelDTO> GetParcelAsync(string barcode);

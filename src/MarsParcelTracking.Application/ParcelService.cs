@@ -7,9 +7,6 @@ namespace MarsParcelTracking.Application
     public class ParcelService : IParcelService
     {
         private readonly IParcelDataAccess _dataAccess;
-        internal const string PARCELORIGIN = "Starport Thames Estuary";
-        internal const string PARCELRECIPIENT = "New London";
-
         public ParcelService(IParcelDataAccess dataAccess)
         {
             _dataAccess = dataAccess;
@@ -73,8 +70,8 @@ namespace MarsParcelTracking.Application
                     Status = EnumParcelStatus.Created,
                     Sender = parcelDTO.Sender,
                     Recipient = parcelDTO.Recipient,
-                    Origin = PARCELORIGIN,
-                    Destination = PARCELRECIPIENT,
+                    Origin = IParcelService.PARCELORIGIN,
+                    Destination = IParcelService.PARCELDESTINATION,
                     DeliveryService = deliveryService,
                     Contents = parcelDTO.Contents,
                     LaunchDate = launchDate,
