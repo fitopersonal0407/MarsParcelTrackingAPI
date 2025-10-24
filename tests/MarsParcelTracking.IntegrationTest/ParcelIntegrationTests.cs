@@ -1,6 +1,7 @@
 ﻿using MarsParcelTracking.API;
 using MarsParcelTracking.API.Responses;
 using MarsParcelTracking.Application;
+using System.Net;
 using System.Net.Http.Json;
 
 namespace MarsParcelTracking.IntegrationTest
@@ -28,14 +29,16 @@ namespace MarsParcelTracking.IntegrationTest
                 Contents = "Express",
             };
 
-            var patchRequest = new PatchParcelRequest()
+            var correctPatchRequest = new PatchParcelRequest()
             {
                 Status = EnumParcelStatus.OnRocketToMars.ToString()
             };
 
+            #region register and fetching
+
             {
                 var response = await _client.PostAsJsonAsync("/api/parcels", postRequest);
-                response.EnsureSuccessStatusCode();
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
                 var result = await response.Content.ReadFromJsonAsync<GetParcelResponse>();
                 Compare(postRequest, result);
@@ -43,7 +46,7 @@ namespace MarsParcelTracking.IntegrationTest
 
             {
                 var response = await _client.GetAsync($"/api/parcels/{postRequest.Barcode}");
-                response.EnsureSuccessStatusCode();
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
                 var result = await response.Content.ReadFromJsonAsync<GetParcelWithHistoryResponse>();
                 Compare(postRequest, result);
@@ -55,23 +58,56 @@ namespace MarsParcelTracking.IntegrationTest
                                     );
             }
 
+            #endregion
+
+            #region status change, correct
+
             {
-                var response = await _client.PatchAsJsonAsync($"/api/parcels/{postRequest.Barcode}", patchRequest);
-                response.EnsureSuccessStatusCode();
+                var response = await _client.PatchAsJsonAsync($"/api/parcels/{postRequest.Barcode}", correctPatchRequest);
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             }
 
             {
                 var response = await _client.GetAsync($"/api/parcels/{postRequest.Barcode}");
-                response.EnsureSuccessStatusCode();
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
                 var result = await response.Content.ReadFromJsonAsync<GetParcelWithHistoryResponse>();
                 Assert.NotNull(result.History);
                 Assert.Equal(expected: 2, actual: result.History.Count());
                 Assert.Collection(result.History,
                                                     item1 => Assert.Equal(EnumParcelStatus.Created.ToString(), item1.Status),
-                                                    item2 => Assert.Equal(patchRequest.Status, item2.Status)
+                                                    item2 => Assert.Equal(correctPatchRequest.Status, item2.Status)
                                     );
             }
+
+            #endregion
+
+            #region status change, wrong
+
+            {
+                var wrongPatchRequest = new PatchParcelRequest()
+                {
+                    Status = EnumParcelStatus.Created.ToString()
+                };
+
+                var response = await _client.PatchAsJsonAsync($"/api/parcels/{postRequest.Barcode}", wrongPatchRequest);
+                Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            }
+
+            {
+                var response = await _client.GetAsync($"/api/parcels/{postRequest.Barcode}");
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+                var result = await response.Content.ReadFromJsonAsync<GetParcelWithHistoryResponse>();
+                Assert.NotNull(result.History);
+                Assert.Equal(expected: 2, actual: result.History.Count());
+                Assert.Collection(result.History,
+                                                    item1 => Assert.Equal(EnumParcelStatus.Created.ToString(), item1.Status),
+                                                    item2 => Assert.Equal(correctPatchRequest.Status, item2.Status)
+                                    );
+            }
+
+            #endregion
         }
 
         private void Compare(RegisterParcelRequest request, GetParcelResponse result)
