@@ -10,8 +10,8 @@ namespace MarsParcelTracking.Domain
         {
         }
 
-        public DbSet<Parcel> Parcels { get; set; } = null!;
-        public DbSet<ParcelTransition> ParcelTransitions { get; set; }
+        public virtual DbSet<Parcel> Parcels { get; set; } = null!;
+        public virtual DbSet<ParcelTransition> ParcelTransitions { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
