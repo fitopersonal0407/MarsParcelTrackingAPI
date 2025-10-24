@@ -20,7 +20,8 @@ namespace MarsParcelTracking.API.Controllers
         public async Task<ActionResult<IEnumerable<GetParcelResponse>>> GetParcels()
         {
             var result = await _service.GetParcelsAsync();
-            return result.Select(i => DTOToResponse(i)).ToList();
+            var answer = Ok(result.Select(i => DTOToResponse(i)).ToList());
+            return answer;
         }
 
         // GET: api/Parcels/5
@@ -31,7 +32,10 @@ namespace MarsParcelTracking.API.Controllers
             if (result == null)
                 return NoContent();
             else
-                return DTOToWithHistoryResponse(result);
+            {
+                var answer = Ok(DTOToWithHistoryResponse(result));
+                return answer;
+            }
         }
 
         // POST: api/Parcels
@@ -50,7 +54,10 @@ namespace MarsParcelTracking.API.Controllers
 
             var result = await _service.RegisterParcelAsync(parcelDTO);
             if (result.Success)
-                return Ok(DTOToResponse(result.Data));
+            {
+                var answer = Ok(DTOToResponse(result.Data));
+                return answer;
+            }
             else
                 switch (result.Response)
                 {
@@ -74,7 +81,11 @@ namespace MarsParcelTracking.API.Controllers
 
             var result = await _service.ChangeParcelStatusAsync(parcelDTO);
             if (result.Success)
-                return Ok(DTOToResponse(result.Data));
+            {
+                var answer = Ok(DTOToResponse(result.Data));
+                return answer;
+            }
+
             else
                 switch (result.Response)
                 {
