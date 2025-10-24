@@ -1,0 +1,43 @@
+﻿@page "/"
+@inherits EntitiesPageBase
+
+<h3>Entities</h3>
+
+@if (isLoading)
+{
+    <p><em>Loading...</em></p>
+}
+else if (hasError)
+{
+    <div class="alert alert-danger">
+        Error loading data: @errorMessage
+    </div>
+}
+else if (entities == null || !entities.Any())
+{
+    <p>No entities found.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>A1</th>
+                <th>A2</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entity in entities)
+            {
+                <tr>
+                    <td>@entity.Barcode</td>
+                    <td>@entity.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<button @onclick="LoadData" class="btn btn-primary" disabled="@isLoading">
+    @(isLoading ? "Loading..." : "Refresh Data")
+</button>

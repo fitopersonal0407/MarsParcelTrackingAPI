@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "src\\MarsParcelTracking.API\\MarsParcelTracking.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\MarsParcelTracker.Blazor\\MarsParcelTracker.Blazor.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
