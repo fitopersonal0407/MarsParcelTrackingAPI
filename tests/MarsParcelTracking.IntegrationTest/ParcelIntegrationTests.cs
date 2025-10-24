@@ -19,7 +19,7 @@ namespace MarsParcelTracking.IntegrationTest
         [Fact]
         public async Task RegisterAndFetch()
         {
-            var request = new RegisterParcelRequest()
+            var postRequest = new RegisterParcelRequest()
             {
                 Barcode = BARCODE_001,
                 Sender = "Cuco Malanga",
@@ -28,20 +28,25 @@ namespace MarsParcelTracking.IntegrationTest
                 Contents = "Express",
             };
 
+            var patchRequest = new PatchParcelRequest()
             {
-                var response = await _client.PostAsJsonAsync("/api/parcels", request);
+                Status = EnumParcelStatus.OnRocketToMars.ToString()
+            };
+
+            {
+                var response = await _client.PostAsJsonAsync("/api/parcels", postRequest);
                 response.EnsureSuccessStatusCode();
 
                 var result = await response.Content.ReadFromJsonAsync<GetParcelResponse>();
-                Compare(request, result);
+                Compare(postRequest, result);
             }
 
             {
-                var response = await _client.GetAsync($"/api/parcels/{request.Barcode}");
+                var response = await _client.GetAsync($"/api/parcels/{postRequest.Barcode}");
                 response.EnsureSuccessStatusCode();
 
                 var result = await response.Content.ReadFromJsonAsync<GetParcelWithHistoryResponse>();
-                Compare(request, result);
+                Compare(postRequest, result);
 
                 Assert.NotNull(result.History);
                 Assert.Equal(expected: 1, actual: result.History.Count());
@@ -50,6 +55,23 @@ namespace MarsParcelTracking.IntegrationTest
                                     );
             }
 
+            {
+                var response = await _client.PatchAsJsonAsync($"/api/parcels/{postRequest.Barcode}", patchRequest);
+                response.EnsureSuccessStatusCode();
+            }
+
+            {
+                var response = await _client.GetAsync($"/api/parcels/{postRequest.Barcode}");
+                response.EnsureSuccessStatusCode();
+
+                var result = await response.Content.ReadFromJsonAsync<GetParcelWithHistoryResponse>();
+                Assert.NotNull(result.History);
+                Assert.Equal(expected: 2, actual: result.History.Count());
+                Assert.Collection(result.History,
+                                                    item1 => Assert.Equal(EnumParcelStatus.Created.ToString(), item1.Status),
+                                                    item2 => Assert.Equal(patchRequest.Status, item2.Status)
+                                    );
+            }
         }
 
         private void Compare(RegisterParcelRequest request, GetParcelResponse result)
