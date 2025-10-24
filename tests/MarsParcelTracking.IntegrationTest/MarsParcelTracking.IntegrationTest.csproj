@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\MarsParcelTracking.API\MarsParcelTracking.API.csproj" />
+    <ProjectReference Include="..\..\src\MarsParcelTracking.Application\MarsParcelTracking.Application.csproj" />
+    <ProjectReference Include="..\..\src\MarsParcelTracking.Domain\MarsParcelTracking.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
