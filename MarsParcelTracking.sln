@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsParcelTracking.Domain",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsParcelTracking.Test", "tests\MarsParcelTracking.Test\MarsParcelTracking.Test.csproj", "{B358EDAE-1FFF-42CF-AD9C-0951047A148E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsParcelTracking.IntegrationTest", "tests\MarsParcelTracking.IntegrationTest\MarsParcelTracking.IntegrationTest.csproj", "{45E28081-A120-442E-846B-331A5633E8F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B358EDAE-1FFF-42CF-AD9C-0951047A148E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B358EDAE-1FFF-42CF-AD9C-0951047A148E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B358EDAE-1FFF-42CF-AD9C-0951047A148E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45E28081-A120-442E-846B-331A5633E8F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45E28081-A120-442E-846B-331A5633E8F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45E28081-A120-442E-846B-331A5633E8F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45E28081-A120-442E-846B-331A5633E8F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
