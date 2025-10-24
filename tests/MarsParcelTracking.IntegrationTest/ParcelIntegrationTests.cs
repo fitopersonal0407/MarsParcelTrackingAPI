@@ -17,7 +17,7 @@ namespace MarsParcelTracking.IntegrationTest
         }
 
         [Fact]
-        public async Task RegisterParcel_ValidRequest_ReturnsSuccess()
+        public async Task RegisterAndFetch()
         {
             var request = new RegisterParcelRequest()
             {
@@ -28,12 +28,34 @@ namespace MarsParcelTracking.IntegrationTest
                 Contents = "Express",
             };
 
-            var response = await _client.PostAsJsonAsync("/api/parcels", request);
-            response.EnsureSuccessStatusCode();
+            {
+                var response = await _client.PostAsJsonAsync("/api/parcels", request);
+                response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadFromJsonAsync<GetParcelResponse>();
+                var result = await response.Content.ReadFromJsonAsync<GetParcelResponse>();
+                Compare(request, result);
+            }
+
+            {
+                var response = await _client.GetAsync($"/api/parcels/{request.Barcode}");
+                response.EnsureSuccessStatusCode();
+
+                var result = await response.Content.ReadFromJsonAsync<GetParcelWithHistoryResponse>();
+                Compare(request, result);
+
+                Assert.NotNull(result.History);
+                Assert.Equal(expected: 1, actual: result.History.Count());
+                Assert.Collection(result.History,
+                                                    item1 => Assert.Equal(EnumParcelStatus.Created.ToString(), item1.Status)
+                                    );
+            }
+
+        }
+
+        private void Compare(RegisterParcelRequest request, GetParcelResponse result)
+        {
             Assert.NotNull(result);
-            Assert.Equal(expected:request.Barcode,actual: result.Barcode);
+            Assert.Equal(expected: request.Barcode, actual: result.Barcode);
             Assert.Equal(expected: EnumParcelStatus.Created.ToString(), actual: result.Status);
             Assert.Equal(expected: request.Sender, actual: result.Sender);
             Assert.Equal(expected: request.Recipient, actual: result.Recipient);
