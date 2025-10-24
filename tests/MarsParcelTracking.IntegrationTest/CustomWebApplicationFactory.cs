@@ -7,8 +7,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace MarsParcelTracking.IntegrationTest
 {
-    public partial class Program { }
-    public class CustomWebApplicationFactory : WebApplicationFactory<Program>
+    public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
