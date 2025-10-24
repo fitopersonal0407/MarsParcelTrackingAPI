@@ -1,0 +1,107 @@
+{
+	"info": {
+		"_postman_id": "23d18c10-9104-48a1-afc2-f34028c795ee",
+		"name": "001_MarsParcelTracking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42156519"
+	},
+	"item": [
+		{
+			"name": "Parcels",
+			"item": [
+				{
+					"name": "RegisterParcel",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"barcode\": \"RMARS1234567890123456789A\",\r\n\t\"sender\": \"Cuco Malanga\",\r\n\t\"recipient\": \"Conde Monte Cristo\",\r\n\t\"deliveryService\": \"Standard\",\r\n    \"deliveryService1\": \"Express\",\r\n\t\"contents\": \"Signed C# language specification and a birthday card\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlService}}/api/parcels",
+							"host": [
+								"{{urlService}}"
+							],
+							"path": [
+								"api",
+								"parcels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PatchParcel",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"status\": \"OnRocketToMars\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlService}}/api/parcels/RMARS1234567890123456789A",
+							"host": [
+								"{{urlService}}"
+							],
+							"path": [
+								"api",
+								"parcels",
+								"RMARS1234567890123456789A"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetParcels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlService}}/api/parcels",
+							"host": [
+								"{{urlService}}"
+							],
+							"path": [
+								"api",
+								"parcels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetParcel",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlService}}/api/parcels/RMARS1234567890123456789A",
+							"host": [
+								"{{urlService}}"
+							],
+							"path": [
+								"api",
+								"parcels",
+								"RMARS1234567890123456789A"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
