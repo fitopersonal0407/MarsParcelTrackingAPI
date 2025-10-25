@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MarsParcelTracking.API\MarsParcelTracking.API.csproj" />
-    <ProjectReference Include="..\MarsParcelTracking.Domain\MarsParcelTracking.Domain.csproj" />
   </ItemGroup>
 
 </Project>

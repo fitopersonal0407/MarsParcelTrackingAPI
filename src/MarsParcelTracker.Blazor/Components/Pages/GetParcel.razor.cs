@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-
-namespace MarsParcelTracker.Blazor.Components.Pages
+﻿namespace MarsParcelTracker.Blazor.Components.Pages
 {
-    public partial class GetParcel : ComponentBase
+    public partial class GetParcel : ParcelsBase
     {
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+        }
     }
 }
