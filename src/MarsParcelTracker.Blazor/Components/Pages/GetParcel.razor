@@ -64,27 +64,32 @@
         }
         else
         {
-            <div class="container mt-4">
-                <!-- Header Section -->
-                <div class="row mb-4">
-                    <div class="col">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <p class="text-muted">Barcode: @_entity.Barcode</p>
-                                <p class="text-muted">Status: @_entity.Status</p>
-                                <p class="text-muted">Sender: @_entity.Sender</p>
-                                <p class="text-muted">Recipient: @_entity.Recipient</p>
-                                <p class="text-muted">Origin: @_entity.Origin</p>
-                                <p class="text-muted">Destination: @_entity.Destination</p>
-                                <p class="text-muted">DeliveryService: @_entity.DeliveryService</p>
-                                <p class="text-muted">Contents: @_entity.Contents</p>
-                                <p class="text-muted">LaunchDate: @_entity.LaunchDate</p>
-                                <p class="text-muted">EtaDays: @_entity.EtaDays</p>
-                                <p class="text-muted">EstimatedArrivalDate: @_entity.EstimatedArrivalDate</p>
-                            </div>
-                        </div>
-                    </div>
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Barcode:</strong> @_entity.Barcode</p>
+                    <p><strong>Status:</strong> @_entity.Status</p>
+                    <p><strong>Sender:</strong> @_entity.Sender</p>
+                    <p><strong>Recipient:</strong> @_entity.Recipient</p>
+                    <p><strong>Origin:</strong> @_entity.Origin</p>
+                    <p><strong>Destination:</strong> @_entity.Destination</p>
+                    <p><strong>DeliveryService:</strong> @_entity.DeliveryService</p>
+                    <p><strong>Contents:</strong> @_entity.Contents</p>
+                    <p><strong>LaunchDate:</strong> @_entity.LaunchDate</p>
+                    <p><strong>EtaDays:</strong> @_entity.EtaDays</p>
+                    <p><strong>EstimatedArrivalDate:</strong> @_entity.EstimatedArrivalDate</p>
                 </div>
+            </div>
+
+            <div class="mt-3">
+                <h5>History</h5>
+                @foreach (var i in _entity.History)
+                {
+                    <div class="border-bottom py-2">
+                        <strong>@i.Status</strong>
+                        <br>
+                        <small>@i.Timestamp</small>
+                    </div>
+                }
             </div>
         }
     }
