@@ -2,8 +2,12 @@ using MarsParcelTracking.API;
 using MarsParcelTracking.Application;
 using MarsParcelTracking.Domain;
 using Microsoft.EntityFrameworkCore;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
 
 // Add services to the container.
 
