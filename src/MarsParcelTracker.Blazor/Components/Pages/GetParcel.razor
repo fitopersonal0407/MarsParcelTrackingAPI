@@ -6,12 +6,7 @@
 <PageTitle>Get a parcel</PageTitle>
 
 <div class="container mt-4">
-    <h3>Input Dialog Example</h3>
-
     <div class="card">
-        <div class="card-header">
-            <h5>Enter Value for barcode</h5>
-        </div>
         <div class="card-body">
             <!-- Input Form -->
             <div class="mb-3">
@@ -48,6 +43,48 @@
         </div>
     }
 
+
+    @if (isLoading)
+    {
+        <div class="text-center mt-5">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading parcel details...</p>
+        </div>
+    }
+    else if (_entityHasBeenSearched)
+    {
+        if (_entity == null)
+        {
+            <div class="alert alert-danger mt-4">
+                <h4>Parcel not found</h4>
+                <p>The requested parcel could not be found.</p>
+            </div>
+        }
+        else
+        {
+            <div class="container mt-4">
+                <!-- Header Section -->
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h2 class="mb-1">Parcel Tracking</h2>
+                                <p class="text-muted">Barcode: @_entity.Barcode</p>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-info fs-6">@_entity.DeliveryService</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    
+
     <!-- Help Dialog -->
     @if (showHelp)
     {
@@ -62,9 +99,6 @@
                         <p>Please enter a value for variable <strong>barcode</strong>.</p>
                         <ul>
                             <li>Barcode can be any text value</li>
-                            <li>Minimum length: 1 character</li>
-                            <li>Maximum length: 50 characters</li>
-                            <li>Special characters are allowed</li>
                         </ul>
                     </div>
                     <div class="modal-footer">

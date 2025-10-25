@@ -6,6 +6,8 @@ namespace MarsParcelTracker.Blazor.Components.Pages
     public partial class GetParcel : ParcelsBase
     {
         private string _barcode = string.Empty;
+        private GetParcelWithHistoryResponse _entity;
+        private bool _entityHasBeenSearched = false;
 
         protected bool isLoading = false;
         protected bool showHelp = false;
@@ -15,6 +17,7 @@ namespace MarsParcelTracker.Blazor.Components.Pages
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
+            _barcode = "RMARS1234567890123456789A";
         }
 
         private bool ValidateInput()
@@ -39,10 +42,10 @@ namespace MarsParcelTracker.Blazor.Components.Pages
 
             try
             {
+                _entityHasBeenSearched = true;
                 var response = await _httpClient.GetAsync($"/api/parcels/{_barcode}");
-                var entity = await response.Content.ReadFromJsonAsync<GetParcelWithHistoryResponse>();
-
-                resultMessage = $"Successfully processed the barcode: '{entity.Contents}'";
+                if (response != null && response.StatusCode==System.Net.HttpStatusCode.OK)
+                    _entity = await response.Content.ReadFromJsonAsync<GetParcelWithHistoryResponse>();
             }
             catch (Exception ex)
             {
