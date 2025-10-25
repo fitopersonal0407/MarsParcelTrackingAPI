@@ -20,7 +20,7 @@ namespace MarsParcelTracking.API.Controllers
         public async Task<ActionResult<IEnumerable<GetParcelResponse>>> GetParcels()
         {
             var result = await _service.GetParcelsAsync();
-            var answer = Ok(result.Select(i => DTOToResponse(i)).ToList());
+            var answer = Ok(result.Select(i => DTOToResponse(i)));
             return answer;
         }
 

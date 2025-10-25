@@ -1,3 +1,4 @@
+using MarsParcelTracking.API;
 using MarsParcelTracking.Application;
 using MarsParcelTracking.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,8 @@ builder.Services.AddScoped<IParcelService, ParcelService>();
 builder.Services.AddScoped<IParcelDataAccess, ParcelDataAccessEF>();
 
 var app = builder.Build();
+
+app.UseMiddleware<MarsParcelAPIMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

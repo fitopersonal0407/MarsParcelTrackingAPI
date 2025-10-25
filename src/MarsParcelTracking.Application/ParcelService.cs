@@ -57,38 +57,29 @@ namespace MarsParcelTracking.Application
                 return answer;
             }
 
-            try
-            {
-                var deliveryService = (EnumDeliveryService)Enum.Parse(typeof(EnumDeliveryService), parcelDTO.DeliveryService);
-                var launchDate = ComputeLaunchDate(deliveryService);
-                var etaDays = ComputeEtaDays(deliveryService);
-                var estimatedArrivalDate = ComputeEstimatedArrivalDate(launchDate, etaDays);
+            var deliveryService = (EnumDeliveryService)Enum.Parse(typeof(EnumDeliveryService), parcelDTO.DeliveryService);
+            var launchDate = ComputeLaunchDate(deliveryService);
+            var etaDays = ComputeEtaDays(deliveryService);
+            var estimatedArrivalDate = ComputeEstimatedArrivalDate(launchDate, etaDays);
 
-                var parcel = new Parcel
-                {
-                    Barcode = parcelDTO.Barcode,
-                    Status = EnumParcelStatus.Created,
-                    Sender = parcelDTO.Sender,
-                    Recipient = parcelDTO.Recipient,
-                    Origin = IParcelService.PARCELORIGIN,
-                    Destination = IParcelService.PARCELDESTINATION,
-                    DeliveryService = deliveryService,
-                    Contents = parcelDTO.Contents,
-                    LaunchDate = launchDate,
-                    EtaDays = etaDays,
-                    EstimatedArrivalDate = estimatedArrivalDate,
-                };
-
-                var result = await _dataAccess.Add(parcel);
-                answer.Data = ItemToDTO(result);
-                return answer;
-            }
-            catch (Exception ex)
+            var parcel = new Parcel
             {
-                answer.Response = ServiceResponseCode.UnexpectedError;
-                answer.Message = ex.Message;
-                return answer;
-            }
+                Barcode = parcelDTO.Barcode,
+                Status = EnumParcelStatus.Created,
+                Sender = parcelDTO.Sender,
+                Recipient = parcelDTO.Recipient,
+                Origin = IParcelService.PARCELORIGIN,
+                Destination = IParcelService.PARCELDESTINATION,
+                DeliveryService = deliveryService,
+                Contents = parcelDTO.Contents,
+                LaunchDate = launchDate,
+                EtaDays = etaDays,
+                EstimatedArrivalDate = estimatedArrivalDate,
+            };
+
+            var result = await _dataAccess.Add(parcel);
+            answer.Data = ItemToDTO(result);
+            return answer;
         }
 
         public async Task<ServiceResponse<ParcelDTO>> ChangeParcelStatusAsync(ParcelDTO parcelDTO)
@@ -101,45 +92,37 @@ namespace MarsParcelTracking.Application
                 answer.Message = "BarcodeInvalid";
                 return answer;
             }
-            else
-                try
-                {
-                    var parcel = await _dataAccess.FindAsync(parcelDTO.Barcode);
-                    if (parcel == null)
-                    {
-                        answer.Response = ServiceResponseCode.BarcodeNotExist;
-                        answer.Message = "BarcodeNotExist";
-                        return answer;
-                    }
 
-                    var newStatus = EnumParcelStatus.Created;
-                    try
-                    {
-                        newStatus = (EnumParcelStatus)Enum.Parse(typeof(EnumParcelStatus), parcelDTO.Status);
-                        if (!ValidateStatusTransitions(currentStatus: parcel.Status, newStatus))
-                        {
-                            answer.Response = ServiceResponseCode.StatusTransitionInvalid;
-                            answer.Message = "StatusTransitionInvalid";
-                            return answer;
-                        }
-                    }
-                    catch
-                    {
-                        answer.Response = ServiceResponseCode.StatusInvalid;
-                        answer.Message = "StatusInvalid";
-                        return answer;
-                    }
+            var parcel = await _dataAccess.FindAsync(parcelDTO.Barcode);
+            if (parcel == null)
+            {
+                answer.Response = ServiceResponseCode.BarcodeNotExist;
+                answer.Message = "BarcodeNotExist";
+                return answer;
+            }
 
-                    parcel.Status = newStatus;
-                    answer.Data = ItemToDTO(await _dataAccess.Update(parcel));
-                    return answer;
-                }
-                catch (Exception ex)
-                {
-                    answer.Response = ServiceResponseCode.UnexpectedError;
-                    answer.Message = ex.Message;
-                    return answer;
-                }
+            var newStatus = EnumParcelStatus.Created;
+            try
+            {
+                newStatus = (EnumParcelStatus)Enum.Parse(typeof(EnumParcelStatus), parcelDTO.Status);
+            }
+            catch
+            {
+                answer.Response = ServiceResponseCode.StatusInvalid;
+                answer.Message = "StatusInvalid";
+                return answer;
+            }
+            if (!ValidateStatusTransitions(currentStatus: parcel.Status, newStatus))
+            {
+                answer.Response = ServiceResponseCode.StatusTransitionInvalid;
+                answer.Message = "StatusTransitionInvalid";
+                return answer;
+            }
+
+            parcel.Status = newStatus;
+            answer.Data = ItemToDTO(await _dataAccess.Update(parcel));
+            return answer;
+
         }
 
         private static ParcelDTO ItemToDTO(Parcel i) =>
