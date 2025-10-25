@@ -2,6 +2,6 @@
 {
     public class GetParcelWithHistoryResponse : GetParcelResponse
     {
-        public List<GetParcelTransitionResponse> History { get; set; }
+        public required List<GetParcelTransitionResponse> History { get; set; }
     }
 }

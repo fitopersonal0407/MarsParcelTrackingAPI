@@ -1,6 +1,9 @@
-﻿using MarsParcelTracking.Domain;
+﻿#pragma warning disable CS8603
+#pragma warning disable CS8604
+#pragma warning disable CS8629
+
+using MarsParcelTracking.Domain;
 using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MarsParcelTracking.Application
 {
@@ -240,3 +243,7 @@ namespace MarsParcelTracking.Application
         }
     }
 }
+
+#pragma warning restore CS8603
+#pragma warning restore CS8604
+#pragma warning restore CS8629

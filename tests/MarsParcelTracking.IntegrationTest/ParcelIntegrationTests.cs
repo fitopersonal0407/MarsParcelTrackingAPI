@@ -1,4 +1,9 @@
-﻿using MarsParcelTracking.API;
+﻿#pragma warning disable CS8601
+#pragma warning disable CS8602
+#pragma warning disable CS8604
+#pragma warning disable CS8629
+
+using MarsParcelTracking.API;
 using MarsParcelTracking.API.Responses;
 using MarsParcelTracking.Application;
 using System.Net;
@@ -52,7 +57,7 @@ namespace MarsParcelTracking.IntegrationTest
                 Compare(postRequest, result);
 
                 Assert.NotNull(result.History);
-                Assert.Equal(expected: 1, actual: result.History.Count());
+                Assert.Single(result.History);
                 Assert.Collection(result.History,
                                                     item1 => Assert.Equal(EnumParcelStatus.Created.ToString(), item1.Status)
                                     );
@@ -124,3 +129,8 @@ namespace MarsParcelTracking.IntegrationTest
         }
     }
 }
+
+#pragma warning restore CS8601
+#pragma warning restore CS8602
+#pragma warning restore CS8604
+#pragma warning restore CS8629

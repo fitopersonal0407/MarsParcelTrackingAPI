@@ -1,4 +1,6 @@
-﻿using MarsParcelTracking.Domain;
+﻿#pragma warning disable CS8603
+
+using MarsParcelTracking.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarsParcelTracking.Application
@@ -47,3 +49,5 @@ namespace MarsParcelTracking.Application
         }
     }
 }
+
+#pragma warning restore CS8603

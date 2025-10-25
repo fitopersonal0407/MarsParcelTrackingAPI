@@ -1,4 +1,8 @@
-﻿using MarsParcelTracking.API.Responses;
+﻿#pragma warning disable CS8601
+#pragma warning disable CS8604
+#pragma warning disable CS8629
+
+using MarsParcelTracking.API.Responses;
 using MarsParcelTracking.Application;
 using Microsoft.AspNetCore.Mvc;
 
@@ -109,7 +113,7 @@ namespace MarsParcelTracking.API.Controllers
                         DeliveryService = i.DeliveryService,
                         Contents = i.Contents,
                         LaunchDate = i.LaunchDate,
-                        EtaDays = i.EtaDays,
+                        EtaDays = i.EtaDays.Value,
                         EstimatedArrivalDate = i.EstimatedArrivalDate,
                     };
 
@@ -125,10 +129,15 @@ namespace MarsParcelTracking.API.Controllers
                         DeliveryService = i.DeliveryService,
                         Contents = i.Contents,
                         LaunchDate = i.LaunchDate,
-                        EtaDays = i.EtaDays,
+                        EtaDays = i.EtaDays.Value,
                         EstimatedArrivalDate = i.EstimatedArrivalDate,
                         History = i.History.Select(h => new GetParcelTransitionResponse() { Status = h.Status.ToString(), Timestamp = Util.UTCDateToString(h.Timestamp) }).ToList(),
                     };
 
     }
 }
+
+
+#pragma warning restore CS8601
+#pragma warning restore CS8604
+#pragma warning restore CS8629
