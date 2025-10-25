@@ -1,10 +1,12 @@
 ﻿namespace MarsParcelTracker.Blazor.Components.Pages
 {
-    public partial class GetParcel : ParcelsBase
+    public partial class GetParcel
     {
-        protected override async Task OnInitializedAsync()
+        private int currentCount = 0;
+
+        private void IncrementCount()
         {
-            await base.OnInitializedAsync();
+            currentCount++;
         }
     }
 }

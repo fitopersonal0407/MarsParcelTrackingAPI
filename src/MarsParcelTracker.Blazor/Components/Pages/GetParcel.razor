@@ -1,4 +1,11 @@
-﻿@inherits ParcelsBase
+﻿@namespace MarsParcelTracker.Blazor.Components.Pages
 @page "/parcel"
+@rendermode InteractiveServer
 
-<h3>Parcel</h3>
+<PageTitle>Counter with Code Behind</PageTitle>
+
+<h1>Counter with Code Behind</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
