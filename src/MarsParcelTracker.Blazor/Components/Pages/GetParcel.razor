@@ -3,10 +3,75 @@
 @rendermode InteractiveServer
 @inherits ParcelsBase
 
-<PageTitle>Counter with Code Behind</PageTitle>
+<PageTitle>Get a parcel</PageTitle>
 
-<h1>Counter with Code Behind</h1>
+<div class="container mt-4">
+    <h3>Input Dialog Example</h3>
 
-<p role="status">Current count: @currentCount</p>
+    <div class="card">
+        <div class="card-header">
+            <h5>Enter Value for barcode</h5>
+        </div>
+        <div class="card-body">
+            <!-- Input Form -->
+            <div class="mb-3">
+                <label for="barcodeInput" class="form-label">Barcode:</label>
+                <input @bind="_barcode" @bind:event="oninput"
+                       type="text" class="form-control" id="barcodeInput"
+                       placeholder="Enter value for barcode" />
+                @if (!string.IsNullOrEmpty(validationMessage))
+                {
+                    <div class="text-danger mt-1">@validationMessage</div>
+                }
+            </div>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+            <!-- Action Buttons -->
+            <div class="d-flex gap-2">
+                <button @onclick="Submit" class="btn btn-primary" disabled="@isLoading">
+                    @(isLoading ? "Processing..." : "Submit")
+                </button>
+
+                <button @onclick="Clear" class="btn btn-secondary">Clear</button>
+
+                <button @onclick="ShowHelp" class="btn btn-outline-info">Help</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Display -->
+    @if (!string.IsNullOrEmpty(resultMessage))
+    {
+        <div class="alert alert-info mt-3">
+            <h6>Result:</h6>
+            <p class="mb-0">@resultMessage</p>
+            <small class="text-muted">Barcode value: <strong>@_barcode</strong></small>
+        </div>
+    }
+
+    <!-- Help Dialog -->
+    @if (showHelp)
+    {
+        <div class="modal show d-block" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Help - Variable Barcode</h5>
+                        <button type="button" class="btn-close" @onclick="CloseHelp"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Please enter a value for variable <strong>barcode</strong>.</p>
+                        <ul>
+                            <li>Barcode can be any text value</li>
+                            <li>Minimum length: 1 character</li>
+                            <li>Maximum length: 50 characters</li>
+                            <li>Special characters are allowed</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @onclick="CloseHelp">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
