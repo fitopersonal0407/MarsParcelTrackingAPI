@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsParcelTracking.Integrat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsParcelTracker.Blazor", "src\MarsParcelTracker.Blazor\MarsParcelTracker.Blazor.csproj", "{3B513C71-1CC7-41DE-BCD4-E65C0FFB4FF6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{443B1E37-503C-5A55-793A-55B8B277B8A0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{EFC54172-272B-8C21-2BFD-59EA90B54974} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{5E28B4B0-E588-7FD9-DE82-ED69F6B4C354} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{45E28081-A120-442E-846B-331A5633E8F4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CF905423-A132-4690-9E39-ACCE6C5512B1}
