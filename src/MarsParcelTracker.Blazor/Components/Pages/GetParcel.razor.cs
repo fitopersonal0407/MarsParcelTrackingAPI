@@ -1,4 +1,6 @@
-﻿using MarsParcelTracking.API.Responses;
+﻿#pragma warning disable CS8601
+
+using MarsParcelTracking.API.Responses;
 using Microsoft.AspNetCore.Components;
 
 namespace MarsParcelTracker.Blazor.Components.Pages
@@ -44,7 +46,7 @@ namespace MarsParcelTracker.Blazor.Components.Pages
             {
                 _entityHasBeenSearched = true;
                 var response = await _httpClient.GetAsync($"/api/parcels/{_barcode}");
-                if (response != null && response.StatusCode==System.Net.HttpStatusCode.OK)
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                     _entity = await response.Content.ReadFromJsonAsync<GetParcelWithHistoryResponse>();
             }
             catch (Exception ex)
@@ -82,3 +84,5 @@ namespace MarsParcelTracker.Blazor.Components.Pages
         }
     }
 }
+
+#pragma warning restore CS8601
