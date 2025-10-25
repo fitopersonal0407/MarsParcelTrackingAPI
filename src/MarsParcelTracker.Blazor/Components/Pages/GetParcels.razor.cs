@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace MarsParcelTracker.Blazor.Components.Pages
 {
-    public partial class AllParcels : ComponentBase
+    public partial class GetParcels : ComponentBase
     {
         [Inject]
         protected IHttpClientFactory HttpClientFactory { get; set; } = null!;
