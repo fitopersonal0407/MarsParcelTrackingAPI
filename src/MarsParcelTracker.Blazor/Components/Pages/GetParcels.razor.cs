@@ -1,21 +1,29 @@
 ﻿#pragma warning disable CS8602
 
 using MarsParcelTracking.API.Responses;
+using Microsoft.AspNetCore.Components;
 
 namespace MarsParcelTracker.Blazor.Components.Pages
 {
-    public partial class GetParcels : ParcelsBase
+    public partial class GetParcels : ComponentBase
     {
+        [Inject]
+        protected IHttpClientFactory HttpClientFactory { get; set; } = null!;
+        protected HttpClient? _httpClient;
+
+        protected override async Task OnInitializedAsync()
+        {
+            _httpClient = HttpClientFactory.CreateClient();
+            _httpClient.BaseAddress = new Uri("https://localhost:7168/");
+            _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            await LoadData();
+        }
+
+
         protected List<GetParcelResponse>? entities;
         protected bool isLoading = false;
         protected bool hasError = false;
         protected string errorMessage = string.Empty;
-
-        protected override async Task OnInitializedAsync()
-        {
-            await base.OnInitializedAsync();
-            await LoadData();
-        }
 
         protected async Task LoadData()
         {

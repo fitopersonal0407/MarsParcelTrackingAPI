@@ -1,5 +1,7 @@
-﻿@inherits ParcelsBase
+﻿@namespace MarsParcelTracker.Blazor.Components.Pages
 @page "/parcels"
+@rendermode InteractiveServer
+
 
 <h3>Parcels</h3>
 
@@ -13,7 +15,7 @@ else if (hasError)
         Error loading data: @errorMessage
     </div>
 }
-else if (entities == null)
+else if (entities == null || !entities.Any())
 {
     <p>No entities found.</p>
 }
