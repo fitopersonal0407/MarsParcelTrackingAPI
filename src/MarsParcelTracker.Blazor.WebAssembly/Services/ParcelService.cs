@@ -8,6 +8,7 @@ namespace MarsParcelTracker.Blazor.WebAssembly.Services
         {
             new GetParcelResponse() { Barcode = "11", Status = "bla 11" },
             new GetParcelResponse() { Barcode = "22", Status = "bla 22" },
+            new GetParcelResponse() { Barcode = "33", Status = "bla 33" },
         };
 
         public async Task<List<GetParcelResponse>> GetParcels()

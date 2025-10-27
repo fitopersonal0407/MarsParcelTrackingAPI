@@ -14,15 +14,16 @@
 <ParcelDetail parcel=@selectedParcel></ParcelDetail>
 
 @code {
-    List<GetParcelResponse> parcels { get; set; } = new List<GetParcelResponse>
-    {
-            new GetParcelResponse { Barcode = "11", Status= "AA"},
-            new GetParcelResponse { Barcode = "22", Status= "AA"},
-     };
+    List<GetParcelResponse> parcels { get; set; } = new List<GetParcelResponse>();
 
     GetParcelResponse selectedParcel { get; set; }
     void onSelect(GetParcelResponse parcel)
     {
         selectedParcel = parcel;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        parcels = await parcelService.GetParcels();
     }
 }
