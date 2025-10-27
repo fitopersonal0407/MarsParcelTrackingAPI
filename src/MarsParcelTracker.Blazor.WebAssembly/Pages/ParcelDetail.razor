@@ -1,15 +1,15 @@
-﻿@if (item != null)
+﻿@if (parcel != null)
 {
-    <h2>@item.Barcode.ToUpper() Details</h2>
-    <div><span>Barcode: </span>@item.Barcode</div>
+    <h2>@parcel.Barcode.ToUpper() Details</h2>
+    <div><span>Barcode: </span>@parcel.Barcode</div>
     <div>
         <label>
             Status:
-            <input @bind=@item.Status />
+            <input @bind=@parcel.Status readonly="true" />
         </label>
     </div>
 }
 @code {
     [Parameter]
-    public GetParcelResponse item { get; set; }
+    public GetParcelResponse parcel { get; set; }
 }

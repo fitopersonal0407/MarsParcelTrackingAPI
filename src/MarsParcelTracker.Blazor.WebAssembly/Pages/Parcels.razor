@@ -10,17 +10,7 @@
     }
 </ul>
 
-@if (selectedParcel != null)
-{
-    <div><span>Barcode: </span>@selectedParcel.Barcode</div>
-    <div>
-        <label>
-            Status:
-            <input @bind=@selectedParcel.Status />
-        </label>
-    </div>
-}
-
+<ParcelDetail parcel=@selectedParcel></ParcelDetail>
 
 @code {
     List<GetParcelResponse> parcels { get; set; } = new List<GetParcelResponse>
