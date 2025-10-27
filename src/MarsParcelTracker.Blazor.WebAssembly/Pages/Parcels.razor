@@ -4,11 +4,22 @@
 <ul class="parcels">
     @foreach (var parcel in parcels)
     {
-        <li>
+        <li @onclick=@(e => onSelect(parcel)) class="@(parcel == selectedParcel ? "selected" : "")">
             <span class="badge">@parcel.Barcode</span> @parcel.Status
         </li>
     }
 </ul>
+
+@if (selectedParcel != null)
+{
+    <div><span>Barcode: </span>@selectedParcel.Barcode</div>
+    <div>
+        <label>
+            Status:
+            <input @bind=@selectedParcel.Status />
+        </label>
+    </div>
+}
 
 
 @code {
@@ -16,5 +27,11 @@
     {
             new GetParcelResponse { Barcode = "11", Status= "AA"},
             new GetParcelResponse { Barcode = "22", Status= "AA"},
-        };
+     };
+
+    GetParcelResponse selectedParcel { get; set; }
+    void onSelect(GetParcelResponse parcel)
+    {
+        selectedParcel = parcel;
+    }
 }
