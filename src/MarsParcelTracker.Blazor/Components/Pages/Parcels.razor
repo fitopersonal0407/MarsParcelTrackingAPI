@@ -1,18 +1,38 @@
 ﻿@page "/parcels"
+@rendermode InteractiveServer
+
 <h2>Parcels</h2>
 <ul class="parcels">
-    @foreach (var parcel in parcels)
+    @foreach (var item in items)
     {
-        <li>
-            <span class="badge">@parcel.Barcode</span> @parcel.Status
+        <li @onclick=@(e => onSelect(item)) class="@(item == selectedItem ? "selected" : "")">
+            <span class="badge">@item.Barcode</span> @item.Status
         </li>
     }
 </ul>
 
+@if (selectedItem != null)
+{
+    <h2>@selectedItem.Barcode.ToUpper() Details</h2>
+    <div><span>Id: </span>@selectedItem.Barcode</div>
+    <div>
+        <label>
+            Status:
+            <input @bind=@selectedItem.Status />
+        </label>
+    </div>
+}
+
 @code {
-    List<GetParcelWithHistoryResponse> parcels { get; set; } = new List<GetParcelWithHistoryResponse>
+    List<GetParcelWithHistoryResponse> items { get; set; } = new List<GetParcelWithHistoryResponse>
         {
             new GetParcelWithHistoryResponse() { Barcode = "11", Status = "bla 11" },
             new GetParcelWithHistoryResponse() { Barcode = "22", Status = "bla 22" },
         };
+
+    GetParcelWithHistoryResponse selectedItem { get; set; }
+    void onSelect(GetParcelWithHistoryResponse item)
+    {
+        selectedItem = item;
+    }
 }
