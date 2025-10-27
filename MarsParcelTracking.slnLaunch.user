@@ -7,7 +7,7 @@
         "Action": "Start"
       },
       {
-        "Path": "src\\MarsParcelTracker.Blazor\\MarsParcelTracker.Blazor.csproj",
+        "Path": "src\\MarsParcelTracker.Blazor.WebAssembly\\MarsParcelTracker.Blazor.WebAssembly.csproj",
         "Action": "Start"
       }
     ]
