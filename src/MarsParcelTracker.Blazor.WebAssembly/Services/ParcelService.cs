@@ -4,6 +4,8 @@ namespace MarsParcelTracker.Blazor.WebAssembly.Services
 {
     public class ParcelService : IParcelService
     {
+        private readonly IMessageService messageService;
+        public ParcelService(IMessageService messageService) => this.messageService = messageService;
         List<GetParcelResponse> parcels { get; set; } = new List<GetParcelResponse>
         {
             new GetParcelResponse() { Barcode = "11", Status = "bla 11" },
@@ -13,6 +15,7 @@ namespace MarsParcelTracker.Blazor.WebAssembly.Services
 
         public async Task<List<GetParcelResponse>> GetParcels()
         {
+            messageService.Add("ParcelService: fetched parcels");
             return await Task.Run(() => { return parcels; });
         }
     }

@@ -99,3 +99,47 @@ body, input[type="text"], button {
         margin-right: .8em;
         border-radius: 4px 0 0 4px;
     }
+
+.messages {
+    clear: both;
+}
+
+input[text], button {
+    color: crimson;
+    font-family: Cambria, Georgia;
+}
+
+button {
+    background-color: #eee;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    cursor: hand;
+    font-family: Arial;
+}
+
+    button.clear {
+        font-family: Arial;
+        background-color: #eee;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        cursor: hand;
+    }
+
+    button:hover {
+        background-color: #cfd8dc;
+    }
+
+    button:disabled {
+        background-color: #eee;
+        color: #aaa;
+        cursor: auto;
+    }
+
+    button.clear {
+        color: #333;
+        margin-bottom: 12px;
+    }

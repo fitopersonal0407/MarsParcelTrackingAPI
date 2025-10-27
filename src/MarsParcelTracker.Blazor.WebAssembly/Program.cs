@@ -11,5 +11,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
 builder.Services.AddSingleton<IParcelService, ParcelService>();
+builder.Services.AddSingleton<IMessageService, MessageService>();
 
 await builder.Build().RunAsync();

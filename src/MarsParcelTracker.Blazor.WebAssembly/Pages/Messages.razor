@@ -1,0 +1,15 @@
+﻿@inject IMessageService messageService
+
+@if (messageService.Messages.Any())
+{
+    <div class="messages">
+        <h3>Messages</h3>
+        <button class="clear" @onclick="@(e => messageService.Clear())">
+            clear
+        </button>
+        @foreach (var message in messageService.Messages)
+        {
+            <div> @message</div>
+        }
+    </div>
+}
