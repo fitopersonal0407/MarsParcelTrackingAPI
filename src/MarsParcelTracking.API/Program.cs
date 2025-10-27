@@ -6,6 +6,16 @@ using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();
 
@@ -24,6 +34,10 @@ builder.Services.AddScoped<IParcelService, ParcelService>();
 builder.Services.AddScoped<IParcelDataAccess, ParcelDataAccessEF>();
 
 var app = builder.Build();
+app.UseCors("AllowAll");
+app.UseRouting();
+app.UseAuthorization();
+app.MapControllers();
 
 app.UseMiddleware<MarsParcelAPIMiddleware>();
 
@@ -34,10 +48,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
 
 if (app.Environment.IsDevelopment())
 {
