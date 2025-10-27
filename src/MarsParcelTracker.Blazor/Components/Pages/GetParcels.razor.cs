@@ -1,6 +1,6 @@
 ﻿#pragma warning disable CS8602
 
-using MarsParcelTracking.API.Responses;
+using MarsParcelTracker.Blazor.Components.Models;
 
 namespace MarsParcelTracker.Blazor.Components.Pages
 {

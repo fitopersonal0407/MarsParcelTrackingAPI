@@ -1,0 +1,20 @@
+﻿@page "/parcels"
+<h2>@parcel.Barcode Details</h2>
+<div><span>Id: </span>@parcel.Status</div>
+@code {
+    GetParcelWithHistoryResponse parcel { get; set; } = new GetParcelWithHistoryResponse
+    {
+        Barcode = "assas",
+        Status = "dsdsdsds",
+        Sender = "dsdsdsds",
+        Recipient = "dsdsdsds",
+        Origin = "dsdsdsds",
+        Destination = "dsdsdsds",
+        DeliveryService = "dsdsdsds",
+        Contents = "dsdsdsds",
+        LaunchDate = "dsdsdsds",
+        EtaDays = 5,
+        EstimatedArrivalDate = "dsdsdsds",
+        History = new List<GetParcelTransitionResponse>()
+    };
+}

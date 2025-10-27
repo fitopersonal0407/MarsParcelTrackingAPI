@@ -1,7 +1,9 @@
 ﻿#pragma warning disable CS8601
+#pragma warning disable CS8602
+#pragma warning disable CS8618
 
-using MarsParcelTracking.API.Responses;
 using Microsoft.AspNetCore.Components;
+using MarsParcelTracker.Blazor.Components.Models;
 
 namespace MarsParcelTracker.Blazor.Components.Pages
 {
@@ -86,3 +88,5 @@ namespace MarsParcelTracker.Blazor.Components.Pages
 }
 
 #pragma warning restore CS8601
+#pragma warning restore CS8602
+#pragma warning restore CS8618
