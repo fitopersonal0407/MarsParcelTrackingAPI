@@ -11,17 +11,7 @@
     }
 </ul>
 
-@if (selectedItem != null)
-{
-    <h2>@selectedItem.Barcode.ToUpper() Details</h2>
-    <div><span>Id: </span>@selectedItem.Barcode</div>
-    <div>
-        <label>
-            Status:
-            <input @bind=@selectedItem.Status />
-        </label>
-    </div>
-}
+<ParcelDetail item=@selectedItem></ParcelDetail>
 
 @code {
     List<GetParcelWithHistoryResponse> items { get; set; } = new List<GetParcelWithHistoryResponse>

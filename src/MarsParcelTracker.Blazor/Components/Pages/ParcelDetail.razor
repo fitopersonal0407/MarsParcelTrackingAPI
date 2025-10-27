@@ -1,0 +1,15 @@
+﻿@if (item != null)
+{
+    <h2>@item.Barcode.ToUpper() Details</h2>
+    <div><span>Barcode: </span>@item.Barcode</div>
+    <div>
+        <label>
+            Status:
+            <input @bind=@item.Status />
+        </label>
+    </div>
+}
+@code {
+    [Parameter]
+    public GetParcelWithHistoryResponse item { get; set; }
+}
