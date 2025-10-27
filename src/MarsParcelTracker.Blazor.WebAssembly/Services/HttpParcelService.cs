@@ -14,18 +14,7 @@ namespace MarsParcelTracker.Blazor.WebAssembly.Services
         }
         public async Task<List<GetParcelResponse>> GetParcels()
         {
-            messageService.Add(httpClient==null? "httpClient null" : "httpClient not null");
-
-            try
-            {
-                messageService.Add("HTTP ParcelService: fetched parcels");
-                return await httpClient.GetFromJsonAsync<List<GetParcelResponse>>("/api/parcels/");
-            }
-            catch (Exception ex)
-            {
-                messageService.Add(ex.Message);
-                throw;
-            }
+            return await httpClient.GetFromJsonAsync<List<GetParcelResponse>>("/api/parcels/");
         }
     }
 
