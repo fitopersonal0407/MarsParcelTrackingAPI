@@ -1,5 +1,6 @@
 ﻿@page "/parcels"
 @rendermode InteractiveServer
+@inject IParcelService parcelService
 
 <h2>Parcels</h2>
 <ul class="parcels">
@@ -14,15 +15,14 @@
 <ParcelDetail item=@selectedItem></ParcelDetail>
 
 @code {
-    List<GetParcelWithHistoryResponse> items { get; set; } = new List<GetParcelWithHistoryResponse>
-        {
-            new GetParcelWithHistoryResponse() { Barcode = "11", Status = "bla 11" },
-            new GetParcelWithHistoryResponse() { Barcode = "22", Status = "bla 22" },
-        };
-
-    GetParcelWithHistoryResponse selectedItem { get; set; }
-    void onSelect(GetParcelWithHistoryResponse item)
+    List<GetParcelResponse> items { get; set; } = new List<GetParcelResponse>();
+    GetParcelResponse selectedItem { get; set; }
+    void onSelect(GetParcelResponse item)
     {
         selectedItem = item;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        items = await parcelService.GetParcels();
     }
 }

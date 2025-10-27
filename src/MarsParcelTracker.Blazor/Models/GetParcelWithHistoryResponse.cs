@@ -1,4 +1,4 @@
-﻿namespace MarsParcelTracker.Blazor.Components.Models
+﻿namespace MarsParcelTracker.Blazor.Models
 {
     public class GetParcelWithHistoryResponse : GetParcelResponse
     {

@@ -3,7 +3,7 @@
 #pragma warning disable CS8618
 
 using Microsoft.AspNetCore.Components;
-using MarsParcelTracker.Blazor.Components.Models;
+using MarsParcelTracker.Blazor.Models;
 
 namespace MarsParcelTracker.Blazor.Components.Pages
 {

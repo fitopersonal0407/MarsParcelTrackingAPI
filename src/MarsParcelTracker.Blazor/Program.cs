@@ -1,8 +1,12 @@
 using MarsParcelTracker.Blazor.Components;
+using MarsParcelTracker.Blazor.Services;
+using System.ComponentModel.Design;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHttpClient();
+builder.Services.AddScoped<IParcelService, ParcelService>();
+
+builder.Services.AddSingleton<IParcelService, ParcelService>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
