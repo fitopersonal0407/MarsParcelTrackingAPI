@@ -1,20 +1,18 @@
 ﻿@page "/parcels"
-<h2>@parcel.Barcode Details</h2>
-<div><span>Id: </span>@parcel.Status</div>
-@code {
-    GetParcelWithHistoryResponse parcel { get; set; } = new GetParcelWithHistoryResponse
+<h2>Parcels</h2>
+<ul class="parcels">
+    @foreach (var parcel in parcels)
     {
-        Barcode = "assas",
-        Status = "dsdsdsds",
-        Sender = "dsdsdsds",
-        Recipient = "dsdsdsds",
-        Origin = "dsdsdsds",
-        Destination = "dsdsdsds",
-        DeliveryService = "dsdsdsds",
-        Contents = "dsdsdsds",
-        LaunchDate = "dsdsdsds",
-        EtaDays = 5,
-        EstimatedArrivalDate = "dsdsdsds",
-        History = new List<GetParcelTransitionResponse>()
-    };
+        <li>
+            <span class="badge">@parcel.Barcode</span> @parcel.Status
+        </li>
+    }
+</ul>
+
+@code {
+    List<GetParcelWithHistoryResponse> parcels { get; set; } = new List<GetParcelWithHistoryResponse>
+        {
+            new GetParcelWithHistoryResponse() { Barcode = "11", Status = "bla 11" },
+            new GetParcelWithHistoryResponse() { Barcode = "22", Status = "bla 22" },
+        };
 }
