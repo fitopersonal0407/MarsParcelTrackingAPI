@@ -1,0 +1,7 @@
+﻿@page "/parcels"
+
+<h2>@item.Barcode Details</h2>
+<div><span>Barcode: </span>@item.Barcode</div>
+@code {
+    GetParcelResponse item { get; set; } = new GetParcelResponse { Barcode = "sasas"};
+}
