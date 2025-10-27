@@ -1,7 +1,20 @@
 ﻿@page "/parcels"
 
-<h2>@item.Barcode Details</h2>
-<div><span>Barcode: </span>@item.Barcode</div>
+<h2>Parcels</h2>
+<ul class="parcels">
+    @foreach (var parcel in parcels)
+    {
+        <li>
+            <span class="badge">@parcel.Barcode</span> @parcel.Status
+        </li>
+    }
+</ul>
+
+
 @code {
-    GetParcelResponse item { get; set; } = new GetParcelResponse { Barcode = "sasas"};
+    List<GetParcelResponse> parcels { get; set; } = new List<GetParcelResponse>
+    {
+            new GetParcelResponse { Barcode = "11", Status= "AA"},
+            new GetParcelResponse { Barcode = "22", Status= "AA"},
+        };
 }
